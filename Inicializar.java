@@ -1,9 +1,10 @@
+import java.util.Scanner;
 public class Inicializar{
-    static Elemento[] poolElementos = new Elemento[6];
-    static Ataque[] poolAtaques = new Ataque[10];
+    static Elemento[] poolElementos = new Elemento[7];
+    static Ataque[] poolAtaques = new Ataque[14];
     static Pokemon[] poolPokemones = new Pokemon[10];
     static Entrenador[] poolEntrenadores = new Entrenador[4];
-    
+
     static Stat statsCharizard = new Stat(138, 102, 81, 94);
     static Stat statsInfernape = new Stat(136, 98, 68, 101);
     static Stat statsPikachu = new Stat(106, 80, 60, 112);
@@ -64,6 +65,30 @@ public class Inicializar{
         poolEntrenadores[2] = new Entrenador("Asistente ECCI", false, new Pokemon[]{poolPokemones[4], poolPokemones[2], poolPokemones[9]});
         poolEntrenadores[3] = new Entrenador("Lider Prof. Rodrigo Li", false, new Pokemon[]{poolPokemones[6], poolPokemones[7], poolPokemones[0]});
         return poolEntrenadores;
+    }
+
+    public static Entrenador inicializarJugador(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Bienvenido!");
+        System.out.println("Ingresa tu nombre: ");
+        String nombre = scanner.next();
+        System.out.println("Elige tu primer pokemon:");
+        for (int i = 0; i < poolPokemones.length; i++) {
+            System.out.println(i + ") " + poolPokemones[i].getNombre() +poolPokemones[i].getNivel() + poolPokemones[i].getElementos() + poolPokemones[i].getAtaques());
+        }
+        int pk1 = scanner.nextInt();
+        System.out.println("Elige tu segundo pokemon (puedes repetir pero no te recomiendo eso :P ):");
+        for (int i = 0; i < poolPokemones.length; i++) {
+            System.out.println(i + ") " + poolPokemones[i].getNombre() + poolPokemones[i].getNivel() + poolPokemones[i].getElementos() + poolPokemones[i].getAtaques());
+        }
+        int pk2 = scanner.nextInt();
+        System.out.println("Elige tu tercer pokemon (puedes repetir pero no te recomiendo eso :P ):");
+        for (int i = 0; i < poolPokemones.length; i++) {
+            System.out.println(i + ") " + poolPokemones[i].getNombre() + poolPokemones[i].getNivel() + poolPokemones[i].getElementos() + poolPokemones[i].getAtaques());
+        }
+        int pk3 = scanner.nextInt();
+        Entrenador jugador = new Entrenador(nombre, true , new Pokemon[]{poolPokemones[pk1], poolPokemones[pk2], poolPokemones[pk3]});
+        return jugador;
     }
 
     public static Gimnasio inicializarGimnasio(){
