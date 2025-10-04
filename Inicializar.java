@@ -91,9 +91,21 @@ public class Inicializar{
         return jugador;
     }
 
-    public static Gimnasio inicializarGimnasio(){
-        Gimnasio gimnasio = new Gimnasio("Edificio Embrujado ECCI",new Entrenador[]{poolEntrenadores[0], poolEntrenadores[1], poolEntrenadores[2], poolEntrenadores[3]});
-        return gimnasio;
+    public static Gimnasio[] inicializarGimnasios() {
+      poolGimnasios[0] = new Gimnasio("Edificio Embrujado ECCI", new Entrenador [] {poolEntrenadores[0], poolEntrenadores[1]});
+      poolGimnasios[1] = new Gimnasio ("Asocia abandonada", new Entrenador[]{poolEntrenadores[2]});
+      poolGimnasios[2] = new Gimnasio ("Anexo ECCI", new Entrenador[]{poolEntrenadores[3]});
+return poolGimnasios;
+}
+    
+    public void mostrarEntrenadores(Entrenador[] poolEntrenadores, int index, boolean[] combate){
+        if (index == 0 || combate[index - 1]){
+            System.out.println("Iniciaste combate con " + poolEntrenadores[index].getNombre());
+            combate[index] = true;
+        }
+        else{
+            System.out.println("bro, no te saltes entrenadores, sigue el guion >:V, vence a " + poolEntrenadores[index - 1].getNombre() + "para poder enfrentarte a " + poolEntrenadores[index].getNombre())
+            //Para enfrentarlos en orden y todo siga su curso, equilibrado diria Thanos.
+        }
     }
-
 }
