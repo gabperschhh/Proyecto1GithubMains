@@ -1,11 +1,14 @@
 public class Stat{
     private int HP;
+    private int HPActual;
     private int ATK;
     private int DEF;
     private int SPD; 
+    
 
-    public Stat(int HP, int ATK, int DEF, int SPD) {
+    public Stat(int HP, int HPActual, int ATK, int DEF, int SPD) {
         this.HP = HP;
+        this.HPActual = HPActual;
         this.ATK = ATK;
         this.DEF = DEF;
         this.SPD = SPD;
@@ -13,6 +16,9 @@ public class Stat{
 
     public int getHP() {
         return HP;
+    }
+    public int getHPActual() {
+        return HPActual;
     }
     public int getATK() {
         return ATK;
@@ -25,6 +31,9 @@ public class Stat{
     }
     public void setHP(int HP) {
         this.HP = HP;
+    }
+    public void setHPActual(int HPActual) {
+        this.HPActual = HPActual;
     }
     public void setATK(int ATK) {
         this.ATK = ATK;

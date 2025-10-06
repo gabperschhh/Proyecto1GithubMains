@@ -7,16 +7,16 @@ public class Inicializar{
     static Entrenador[] poolEntrenadores = new Entrenador[4];
     static Gimnasio[] poolGimnasios = new Gimnasio[3];
 
-    static Stat statsCharizard = new Stat(138, 102, 81, 94);
-    static Stat statsInfernape = new Stat(136, 98, 68, 101);
-    static Stat statsPikachu = new Stat(106, 80, 60, 112);
-    static Stat statsGreninja = new Stat(132, 142, 68, 123);
-    static Stat statsVenusaur = new Stat(140, 94, 94, 80);
-    static Stat statsBlastoise = new Stat(139, 81, 99, 74);
-    static Stat statsSnorlax = new Stat(220, 103, 63, 31);
-    static Stat statsLucario = new Stat(130, 108, 67, 90);
-    static Stat statsNoivern = new Stat(145, 91, 76, 121);
-    static Stat statsDecidueye = new Stat(138, 100, 94, 70);
+    static Stat statsCharizard = new Stat(138, 138, 102, 81, 94);
+    static Stat statsInfernape = new Stat(136, 136, 98, 68, 101);
+    static Stat statsPikachu = new Stat(106, 106, 80, 60, 112);
+    static Stat statsGreninja = new Stat(132, 132, 142, 68, 123);
+    static Stat statsVenusaur = new Stat(140, 140, 94, 94, 80);
+    static Stat statsBlastoise = new Stat(139, 139, 81, 99, 74);
+    static Stat statsSnorlax = new Stat(220, 220, 103, 63, 31);
+    static Stat statsLucario = new Stat(130, 130, 108, 67, 90);
+    static Stat statsNoivern = new Stat(145, 145, 91, 76, 121);
+    static Stat statsDecidueye = new Stat(138, 138, 100, 94, 70);
 
     public static Elemento[] inicializarElementos(){
         poolElementos[0] = new Elemento("Planta", new String[]{"Fuego", "Volador"}, new String[]{"Agua"});
