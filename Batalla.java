@@ -127,6 +127,34 @@ public class Batalla{
             return poke1;
         }
     }
+    public Ataque turnoJugador(Pokemon poke 1, Ataque ataqueUsado){
+        System.out.println("Elige un ataque: ");
+        System.out.println("Primer ataque");
+        for(int i = 0; i < poolAtaques.length; i++){
+            System.out.println(i + ")" +poolAtaques[i].getNombre() + poolAtaques[i].getElementos() + poolAtaques[i].getPotencia() poolAtaques[i].getPPMaximo() + poolAtaques[i].getPPActual() + poolAtaques[i].getPrecision());
+        }
+        int Ataque1 = sc.nextInt();
+        System.out.print("Segundo ataque");
+        for(int i = 0; i < poolAtaques.length; i++){
+            System.out.println(i + ")" +poolAtaques[i].getNombre() + poolAtaques[i].getElementos() + poolAtaques[i].getPotencia() poolAtaques[i].getPPMaximo() + poolAtaques[i].getPPActual() + poolAtaques[i].getPrecision());
+        }
+        int Ataque2 = sc.nextInt();
+        System.out.println("Tercer ataque")
+        for(int i = 0; i < poolAtaques.length; i++){
+            System.out.println(i + ")" +poolAtaques[i].getNombre() + poolAtaques[i].getElementos() + poolAtaques[i].getPotencia() poolAtaques[i].getPPMaximo() + poolAtaques[i].getPPActual() + poolAtaques[i].getPrecision());
+        }
+        int Ataque3 = sc.nextInt();
+        System.out.println("Cuarto ataque")
+        for(int i = 0; i < poolAtaques.length; i++){
+            System.out.println(i + ")" +poolAtaques[i].getNombre() + poolAtaques[i].getElementos() + poolAtaques[i].getPotencia() poolAtaques[i].getPPMaximo() + poolAtaques[i].getPPActual() + poolAtaques[i].getPrecision());
+        }
+        int Ataque4 = sc.nextInt();
+        if(poke1.getAtaques().getPPActual() > 0){
+            return ataqueUsado;
+        } else(){
+            System.out.println("No tienes suficientes PP");
+        }
+    }
 
     public void cicloBatalla(Entrenador jugador, Entrenador npc){
         Scanner sc = new Scanner(System.in);
