@@ -7,6 +7,11 @@ public class Elemento{
         this.nombre = nombre;
         this.debilidades = debilidades;
         this.fortalezas = fortalezas;
+    } 
+
+    @Override
+    public String toString() {
+        return nombre;
     }
 
     public String getNombre() {

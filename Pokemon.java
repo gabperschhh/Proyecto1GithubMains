@@ -4,7 +4,7 @@ public class Pokemon{
     private Stat stats;
     private Elemento[] elementos = new Elemento[2];
     private Ataque[] ataques = new Ataque[4];
-    private boolean debilitado;
+    private boolean debilitado; 
 
     public Pokemon(String nombre, int nivel, Stat stats, Elemento[] elementos, 
     Ataque[] ataques, boolean debilitado) {
@@ -14,6 +14,11 @@ public class Pokemon{
     this.elementos = elementos;
     this.ataques = ataques;
     this.debilitado = debilitado;
+    }
+
+    @Override
+    public String toString() {
+        return nombre;
     }
 
     public String getNombre() {

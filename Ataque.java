@@ -8,12 +8,17 @@ public class Ataque{
 
     public Ataque(String nombre, Elemento elemento, int potencia, int PPMaximo, int PPActual,
     int precision) {
-    this.nombre = nombre;
+    this.nombre = nombre; 
     this.elemento = elemento;
     this.potencia = potencia;
     this.PPMaximo = PPMaximo;
     this.PPActual = PPActual;
     this.precision = precision;
+    }
+
+    @Override
+    public String toString() {
+        return nombre;
     }
 
     public String getNombre() {

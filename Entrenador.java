@@ -6,7 +6,12 @@ public class Entrenador{
     public Entrenador(String nombre, boolean esJugador, Pokemon[] pokemones){
         this.nombre = nombre;
         this.esJugador = esJugador;
-        this.pokemones = pokemones;
+        this.pokemones = pokemones; 
+    }
+
+    @Override
+    public String toString() {
+        return nombre;
     }
 
     public String getNombre(){

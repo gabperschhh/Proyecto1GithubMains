@@ -6,6 +6,11 @@ public class Gimnasio{
         this.nombre = nombre;
         this.entrenadores = entrenadores;
     }
+    
+    @Override
+    public String toString() {
+        return nombre;
+    }
 
     public String getNombre(){
         return nombre;

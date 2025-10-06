@@ -1,9 +1,11 @@
+import java.util.Arrays;
 import java.util.Scanner;
 public class Inicializar{
     static Elemento[] poolElementos = new Elemento[7];
     static Ataque[] poolAtaques = new Ataque[14];
     static Pokemon[] poolPokemones = new Pokemon[10];
     static Entrenador[] poolEntrenadores = new Entrenador[4];
+    static Gimnasio[] poolGimnasios = new Gimnasio[3];
 
     static Stat statsCharizard = new Stat(138, 102, 81, 94);
     static Stat statsInfernape = new Stat(136, 98, 68, 101);
@@ -74,17 +76,17 @@ public class Inicializar{
         String nombre = scanner.next();
         System.out.println("Elige tu primer pokemon:");
         for (int i = 0; i < poolPokemones.length; i++) {
-            System.out.println(i + ") " + poolPokemones[i].getNombre() +poolPokemones[i].getNivel() + poolPokemones[i].getElementos() + poolPokemones[i].getAtaques());
+            System.out.println(i + ") " + poolPokemones[i].getNombre() + poolPokemones[i].getNivel() + Arrays.toString(poolPokemones[i].getElementos()) + Arrays.toString(poolPokemones[i].getAtaques()));
         }
         int pk1 = scanner.nextInt();
         System.out.println("Elige tu segundo pokemon (puedes repetir pero no te recomiendo eso :P ):");
         for (int i = 0; i < poolPokemones.length; i++) {
-            System.out.println(i + ") " + poolPokemones[i].getNombre() + poolPokemones[i].getNivel() + poolPokemones[i].getElementos() + poolPokemones[i].getAtaques());
+            System.out.println(i + ") " + poolPokemones[i].getNombre() + poolPokemones[i].getNivel() + Arrays.toString(poolPokemones[i].getElementos()) + Arrays.toString(poolPokemones[i].getAtaques()));
         }
         int pk2 = scanner.nextInt();
         System.out.println("Elige tu tercer pokemon (puedes repetir pero no te recomiendo eso :P ):");
         for (int i = 0; i < poolPokemones.length; i++) {
-            System.out.println(i + ") " + poolPokemones[i].getNombre() + poolPokemones[i].getNivel() + poolPokemones[i].getElementos() + poolPokemones[i].getAtaques());
+            System.out.println(i + ") " + poolPokemones[i].getNombre() + poolPokemones[i].getNivel() + Arrays.toString(poolPokemones[i].getElementos()) + Arrays.toString(poolPokemones[i].getAtaques()));
         }
         int pk3 = scanner.nextInt();
         Entrenador jugador = new Entrenador(nombre, true , new Pokemon[]{poolPokemones[pk1], poolPokemones[pk2], poolPokemones[pk3]});
@@ -92,11 +94,11 @@ public class Inicializar{
     }
 
     public static Gimnasio[] inicializarGimnasios() {
-      poolGimnasios[0] = new Gimnasio("Edificio Embrujado ECCI", new Entrenador [] {poolEntrenadores[0], poolEntrenadores[1]});
-      poolGimnasios[1] = new Gimnasio ("Asocia abandonada", new Entrenador[]{poolEntrenadores[2]});
-      poolGimnasios[2] = new Gimnasio ("Anexo ECCI", new Entrenador[]{poolEntrenadores[3]});
-return poolGimnasios;
-}
+        poolGimnasios[0] = new Gimnasio("Edificio Embrujado ECCI", new Entrenador [] {poolEntrenadores[0], poolEntrenadores[1]}); 
+        poolGimnasios[1] = new Gimnasio ("Asocia abandonada", new Entrenador[]{poolEntrenadores[2]});
+        poolGimnasios[2] = new Gimnasio ("Anexo ECCI", new Entrenador[]{poolEntrenadores[3]});
+        return poolGimnasios;
+    }
     
     public void mostrarEntrenadores(Entrenador[] poolEntrenadores, int index, boolean[] combate){
         if (index == 0 || combate[index - 1]){
@@ -104,7 +106,7 @@ return poolGimnasios;
             combate[index] = true;
         }
         else{
-            System.out.println("bro, no te saltes entrenadores, sigue el guion >:V, vence a " + poolEntrenadores[index - 1].getNombre() + "para poder enfrentarte a " + poolEntrenadores[index].getNombre())
+            System.out.println("bro, no te saltes entrenadores, sigue el guion >:V, vence a " + poolEntrenadores[index - 1].getNombre() + "para poder enfrentarte a " + poolEntrenadores[index].getNombre());
             //Para enfrentarlos en orden y todo siga su curso, equilibrado diria Thanos.
         }
     }

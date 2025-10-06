@@ -3,11 +3,11 @@ public class Main{
         Batalla b = new Batalla();
         Inicializar i = new Inicializar();
         i.inicializarElementos();
-        i.inicializarAtaques();
+        i.inicializarAtaques(); 
         i.inicializarPokemones();
         i.inicializarEntrenadores();
         Entrenador jugador = i.inicializarJugador();
-        i.inicializarGimnasio();
+        i.inicializarGimnasios();
         Entrenador npc = i.poolEntrenadores[0];
         b.cicloBatalla(jugador, npc);
     }

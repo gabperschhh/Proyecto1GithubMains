@@ -2,7 +2,7 @@ public class Stat{
     private int HP;
     private int ATK;
     private int DEF;
-    private int SPD;
+    private int SPD; 
 
     public Stat(int HP, int ATK, int DEF, int SPD) {
         this.HP = HP;

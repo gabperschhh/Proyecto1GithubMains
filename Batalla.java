@@ -3,10 +3,10 @@ public class Batalla{
 
     private static boolean esDebilidad(String tipoAtaque, String[] debilidades){
         for (String d : debilidades){   
-            if (d.equalsIgnoreCase(tipoAtaque)) { //
+            if (d.equalsIgnoreCase(tipoAtaque)) { 
                 return true;
             }
-        }
+        } 
         return false;
     }
 
@@ -33,7 +33,7 @@ public class Batalla{
     public boolean esCritico(){
         Random random = new Random();
         int prob = random.nextInt(100) + 1; //como genera de 0 a 99 le sumamos uno para que sea entre 1 a 100, es como lo mismo pero queda mejor xd
-        if (prob <= 10){
+        if (prob <= 33){
             return true;
         }
         return false;
@@ -57,7 +57,7 @@ public class Batalla{
         daño *= efectividad;
         
         if (esCritico() == true){
-            daño *= 1.5;
+            daño *= 2;
         }
 
         daño *= (0.85 + Math.random() * 0.15); //en los juegos hay un elemento aleatorio de potencia en cada ataque
@@ -66,10 +66,22 @@ public class Batalla{
         return (int) daño; //reconvierte a int
     }
 
+    public Pokemon compararVelocidades(Pokemon poke1, Pokemon poke2){
+        if(poke1.getStats().getSPD() > poke2.getStats().getSPD()){
+            return poke1;
+        }else if (poke1.getStats().getSPD() < poke2.getStats().getSPD()){
+            return poke2;
+        }
+        return poke1;
+    }
+
     public void cicloBatalla(Entrenador jugador, Entrenador npc){
         Pokemon poke1 = jugador.getPokemones()[0]; //pokemon activo
         Pokemon poke2 = npc.getPokemones()[0]; 
+        boolean enCombate = true;
 
-        System.out.println(npc.getPokemones()[0]);
+        while(enCombate = true){
+            System.out.println(compararVelocidades(poke1, poke2));
+        }
     }
 }
