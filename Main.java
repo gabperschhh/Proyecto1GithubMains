@@ -1,8 +1,12 @@
+import java.util.Scanner;
 public class Main{
     public static void main(String[] args) {
         Batalla b = new Batalla();
         Inicializar i = new Inicializar();
+        Scanner s = new Scanner(System.in);
         int indiceNPC = 0;
+        int victorias = 0;
+        int derrotas = 0;
         i.inicializarElementos();
         i.inicializarAtaques(); 
         i.inicializarPokemonesJugador();
@@ -10,7 +14,6 @@ public class Main{
         i.inicializarEntrenadores();
         i.inicializarGimnasios();
         Entrenador jugadorOriginal = i.inicializarJugador();
-
         while(indiceNPC < 4){
             Pokemon[] pokemonesJugador = new Pokemon[3];
             for(int j = 0; j < 3; j++){
@@ -28,10 +31,29 @@ public class Main{
             }
             Entrenador npc = new Entrenador(npcOriginal.getNombre(), false, pokemonesNPC);
 
-            b.cicloBatalla(jugador, npc);
+            boolean ganoJugador = b.cicloBatalla(jugador, npc); 
+
+            if (ganoJugador) {
+                victorias++;
+            } else {
+                derrotas++;
+            }           
+
             indiceNPC ++;
-            System.out.println("Avanzas hacia la siguiente batalla...");
+            System.out.println("Avanzas...");
+            s.nextLine();
+            b.limpiarPantalla();
         }
+        showStats(derrotas, victorias);
+    }
+
+    public static void showStats(int derrotas, int victorias){
+        Scanner y = new Scanner(System.in);
+        System.out.println("Felicidades, llegaste al final del juego.");
+        System.out.println("Tus stats fueron:");
+        System.out.println("Victorias: " + victorias);
+        System.out.println("Derrotas: " + derrotas);
+        y.nextLine();
     }
 
     public static Pokemon crearNuevoPokemon(Pokemon original) {

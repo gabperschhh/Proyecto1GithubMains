@@ -1,6 +1,7 @@
 import java.util.Arrays;
 import java.util.Scanner;
 public class Inicializar{
+    static Batalla b = new Batalla();
     static Elemento[] poolElementos = new Elemento[7];
     static Ataque[] poolAtaques = new Ataque[14];
     static Pokemon[] poolPokemonesNPC = new Pokemon[10];
@@ -105,28 +106,31 @@ public class Inicializar{
             System.out.println(i + ") " + poolPokemonesJugador[i].getNombre() + "| Nivel: " + poolPokemonesJugador[i].getNivel() + "| Tipo(s)"+ Arrays.toString(poolPokemonesJugador[i].getElementos()) + "| Movimientos: " + Arrays.toString(poolPokemonesJugador[i].getAtaques()));
         }
         int pk1 = scanner.nextInt();
+        b.limpiarPantalla();
         System.out.println("Elige tu segundo pokemon (NO se puede repetir):");
         for (int i = 0; i < poolPokemonesJugador.length; i++) {
             System.out.println(i + ") " + poolPokemonesJugador[i].getNombre() + "| Nivel: " + poolPokemonesJugador[i].getNivel() + "| Tipo(s)"+ Arrays.toString(poolPokemonesJugador[i].getElementos()) + "| Movimientos: " + Arrays.toString(poolPokemonesJugador[i].getAtaques()));
         }
         int pk2 = scanner.nextInt();
+        b.limpiarPantalla();
         System.out.println("Elige tu tercer pokemon (NO se puede repetir):");
         for (int i = 0; i < poolPokemonesJugador.length; i++) {
             System.out.println(i + ") " + poolPokemonesJugador[i].getNombre() + "| Nivel: " + poolPokemonesJugador[i].getNivel() + "| Tipo(s)"+ Arrays.toString(poolPokemonesJugador[i].getElementos()) + "| Movimientos: " + Arrays.toString(poolPokemonesJugador[i].getAtaques()));
         }
         int pk3 = scanner.nextInt();
+        b.limpiarPantalla();
         Entrenador jugador = new Entrenador(nombre, true , new Pokemon[]{poolPokemonesJugador[pk1], poolPokemonesJugador[pk2], poolPokemonesJugador[pk3]});
         return jugador;
     }
 
     public static Gimnasio[] inicializarGimnasios() {
-        poolGimnasios[0] = new Gimnasio("Edificio Embrujado ECCI", new Entrenador [] {poolEntrenadores[0], poolEntrenadores[1]}); 
-        poolGimnasios[1] = new Gimnasio ("Asocia abandonada", new Entrenador[]{poolEntrenadores[2]});
-        poolGimnasios[2] = new Gimnasio ("Anexo ECCI", new Entrenador[]{poolEntrenadores[3]});
+        poolGimnasios[0] = new Gimnasio("Edificio Embrujado ECCI", new Entrenador [] {poolEntrenadores[0], poolEntrenadores[1], poolEntrenadores[2], poolEntrenadores[3]}); 
+        poolGimnasios[1] = new Gimnasio ("Asocia abandonada", new Entrenador[]{poolEntrenadores[0], poolEntrenadores[1], poolEntrenadores[2], poolEntrenadores[3]});
+        poolGimnasios[2] = new Gimnasio ("Anexo ECCI", new Entrenador[]{poolEntrenadores[0], poolEntrenadores[1], poolEntrenadores[2], poolEntrenadores[3]});
         return poolGimnasios;
     }
     
-    public void mostrarEntrenadores(Entrenador[] poolEntrenadores, int index, boolean[] combate){
+    /* public void mostrarEntrenadores(Entrenador[] poolEntrenadores, int index, boolean[] combate){
         if (index == 0 || combate[index - 1]){
             System.out.println("Iniciaste combate con " + poolEntrenadores[index].getNombre());
             combate[index] = true;
@@ -135,5 +139,5 @@ public class Inicializar{
             System.out.println("bro, no te saltes entrenadores, sigue el guion >:V, vence a " + poolEntrenadores[index - 1].getNombre() + "para poder enfrentarte a " + poolEntrenadores[index].getNombre());
             //Para enfrentarlos en orden y todo siga su curso, equilibrado diria Thanos.
         }
-    }
+    } */
 }
