@@ -1,5 +1,5 @@
 # Proyecto1
 
-Falta el comprobar cuando alguien pierde y que se inicie el siguiente combate, despues de eso es tocar detalles, pero al menos que quede funcional xd
+Correr el programa con el compilar.bat, esto para que la funcion de limpiar pantalla funque, es solo descargarlo con el pull y darle doble click como si fuera un programa, les abre el command prompt (para que no se asusten xd)
 
 -Gabo
