@@ -40,24 +40,17 @@ public class Batalla{
         return false;
     }
 
-    public int calcularDaño(Pokemon atacante, Pokemon defensor, Ataque ataqueUsado){
+    public int calcularDaño(Pokemon atacante, Pokemon defensor, Ataque ataqueUsado, boolean esCritico, double efectividadTotal){
         int nivelAtacante = atacante.getNivel();
         int potenciaAtaque = ataqueUsado.getPotencia();
         int ataque = atacante.getStats().getATK();
         int defensa = defensor.getStats().getDEF();
         double daño = ((2.0 * nivelAtacante / 5 + 2) * potenciaAtaque * ataque / defensa) / 50 + 2;
         //formula mas parecida que encontre respecto a como se calcula en los juegos
-        String tipoAtaque = ataqueUsado.getElemento().getNombre();
 
-        double efectividad = 1.0;
-        for (Elemento elemDef : defensor.getElementos()) {
-            if (elemDef != null) {
-                efectividad *= obtenerEfectividad(tipoAtaque, elemDef.getDebilidades(), elemDef.getFortalezas());
-            }
-        }
-        daño *= efectividad;
+        daño *= efectividadTotal;
         
-        if (esCritico() == true){
+        if (esCritico == true){
             daño *= 2;
         }
 
@@ -82,8 +75,46 @@ public class Batalla{
         return ataque;
     }
 
-    public void atacar(Ataque ataqueUsado, Pokemon atacate, Pokemon defensor){
+    public void atacar(Ataque ataqueUsado, Pokemon atacante, Pokemon defensor, String tipoAtaque, double efectividadTotal){
+        Scanner s = new Scanner(System.in);
+        try {
+            if(ataqueUsado.getPPActual() > 0){
+                boolean esCritico = esCritico();
 
+                int daño = calcularDaño(atacante, defensor, ataqueUsado, esCritico, efectividadTotal);
+
+                int ppActual = ataqueUsado.getPPActual();
+                int nuevoPP = ppActual - 1;
+                ataqueUsado.setPPActual(nuevoPP);
+
+                int hpActual = defensor.getStats().getHPActual();
+                int nuevoHP = hpActual - daño;
+                defensor.getStats().setHPActual(nuevoHP);
+
+                System.out.println(atacante.getNombre() + " ha usado " + ataqueUsado + "!");
+                s.nextLine();
+
+                System.out.println("El " + defensor.getNombre() + " rival perdió " + daño + " de vida.");
+                s.nextLine();
+                
+                if(efectividadTotal == 2.0){
+                    System.out.println("Es supereficaz!");
+                    s.nextLine();
+                }else if(efectividadTotal == 0.5){
+                    System.out.println("Es poco eficaz...");
+                    s.nextLine();
+                }
+                if(esCritico == true){
+                    System.out.println("Un golpe crítico");
+                    s.nextLine();
+                }
+
+            }
+        } catch (Exception e) {
+            if(ataqueUsado.getPPActual() == 0){
+                System.out.println("No hay PP!");
+            }
+        }
     }
 
     public Pokemon cambiarPokemonJugador(Pokemon poke1, Entrenador jugador){
@@ -118,43 +149,10 @@ public class Batalla{
                 System.out.println("Entrada inválida. Debes escribir un número.");
                 scan.nextLine();
             }
-        }
-        if (cambioValido) {
-            System.out.println("\n¡Cambiaste a " + pokemonElegido.getNombre() + "!");
-            return pokemonElegido;
-        } else {
-            System.out.println("No se realizó ningún cambio.");
-            return poke1;
-        }
+        } 
+        System.out.println("\n¡Cambiaste a " + pokemonElegido.getNombre() + "!");
+        return pokemonElegido;
     }
-    public Ataque turnoJugador(Pokemon poke 1, Ataque ataqueUsado){
-        System.out.println("Elige un ataque: ");
-        System.out.println("Primer ataque");
-        for(int i = 0; i < poolAtaques.length; i++){
-            System.out.println(i + ")" +poolAtaques[i].getNombre() + poolAtaques[i].getElementos() + poolAtaques[i].getPotencia() poolAtaques[i].getPPMaximo() + poolAtaques[i].getPPActual() + poolAtaques[i].getPrecision());
-        }
-        int Ataque1 = sc.nextInt();
-        System.out.print("Segundo ataque");
-        for(int i = 0; i < poolAtaques.length; i++){
-            System.out.println(i + ")" +poolAtaques[i].getNombre() + poolAtaques[i].getElementos() + poolAtaques[i].getPotencia() poolAtaques[i].getPPMaximo() + poolAtaques[i].getPPActual() + poolAtaques[i].getPrecision());
-        }
-        int Ataque2 = sc.nextInt();
-        System.out.println("Tercer ataque")
-        for(int i = 0; i < poolAtaques.length; i++){
-            System.out.println(i + ")" +poolAtaques[i].getNombre() + poolAtaques[i].getElementos() + poolAtaques[i].getPotencia() poolAtaques[i].getPPMaximo() + poolAtaques[i].getPPActual() + poolAtaques[i].getPrecision());
-        }
-        int Ataque3 = sc.nextInt();
-        System.out.println("Cuarto ataque")
-        for(int i = 0; i < poolAtaques.length; i++){
-            System.out.println(i + ")" +poolAtaques[i].getNombre() + poolAtaques[i].getElementos() + poolAtaques[i].getPotencia() poolAtaques[i].getPPMaximo() + poolAtaques[i].getPPActual() + poolAtaques[i].getPrecision());
-        }
-        int Ataque4 = sc.nextInt();
-        if(poke1.getAtaques().getPPActual() > 0){
-            return ataqueUsado;
-        } else(){
-            System.out.println("No tienes suficientes PP");
-        }
-    }
 
     public void cicloBatalla(Entrenador jugador, Entrenador npc){
         Scanner sc = new Scanner(System.in);
@@ -165,6 +163,9 @@ public class Batalla{
         boolean enCombate = true;
         Ataque ataqueUsado;
         int opcion;
+        Pokemon atacante;
+        Pokemon defensor;
+        String tipoAtaque;
 
         /* for(int i = 0; i < jugador.getPokemones().length; i++){
             if(jugador.getPokemones().isDebilitado() == true){
@@ -185,17 +186,56 @@ public class Batalla{
                 opcion -= 1;
                 if (opcion <= 3){
                     ataqueUsado = poke1.getAtaques()[opcion];
+                    atacante = poke1;
+                    defensor = poke2;
+                    tipoAtaque = ataqueUsado.getElemento().getNombre();
+                    double efectividadTotal = 1.0;
+                    
+                    for (Elemento elemDef : poke2.getElementos()) {
+                        if (elemDef != null) {
+                            efectividadTotal *= obtenerEfectividad(tipoAtaque, elemDef.getDebilidades(), elemDef.getFortalezas());
+                        }
+                    }
+
+
+                    atacar(ataqueUsado, atacante, defensor, tipoAtaque, efectividadTotal);
                 } else if(opcion == 4){
                     poke1 = cambiarPokemonJugador(poke1, jugador);
                 } else{
                     System.out.println("Opcion no valida");
                 }
 
-                ataqueIA();
+                int ataqueNPC = ataqueIA();
+                ataqueUsado = poke2.getAtaques()[ataqueNPC];
+                atacante = poke2;
+                defensor = poke1;
+                tipoAtaque = ataqueUsado.getElemento().getNombre();
+                double efectividadTotal = 1.0;
+
+                for (Elemento elemDef : poke1.getElementos()) {
+                        if (elemDef != null) {
+                            efectividadTotal *= obtenerEfectividad(tipoAtaque, elemDef.getDebilidades(), elemDef.getFortalezas());
+                        }
+                }
+                atacar(ataqueUsado, atacante, defensor, tipoAtaque, efectividadTotal);
             }else if (compararVelocidades(poke1, poke2) == poke2){
                 System.out.println("HP de tu " + poke1.getNombre() + " : " + poke1.getStats().getHP());
                 System.out.println("HP del " + poke2.getNombre() + " rival: " + poke2.getStats().getHP());
-                ataqueIA();
+
+                int ataqueNPC = ataqueIA();
+                ataqueUsado = poke2.getAtaques()[ataqueNPC];
+                atacante = poke2;
+                defensor = poke1;
+                tipoAtaque = ataqueUsado.getElemento().getNombre();
+                double efectividadTotal = 1.0;
+
+                for (Elemento elemDef : poke1.getElementos()) {
+                        if (elemDef != null) {
+                            efectividadTotal *= obtenerEfectividad(tipoAtaque, elemDef.getDebilidades(), elemDef.getFortalezas());
+                        }
+                }
+                atacar(ataqueUsado, atacante, defensor, tipoAtaque, efectividadTotal);
+
                 System.out.println("Que quieres hacer?");
                 for (int i = 0; i < poke1.getAtaques().length; i++){
                     System.out.println((i + 1) + ") " + poke1.getAtaques()[i]);
