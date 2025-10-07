@@ -112,6 +112,7 @@ public class Batalla{
                     defensor.setDebilitado(true);
                     defensor.getStats().setHPActual(0);
                     System.out.println(defensor.getNombre() + " se ha debilitado");
+                    s.nextLine();
                 }
 
             }
@@ -131,8 +132,18 @@ public class Batalla{
         return false;
     }
 
-    public boolean comprobarPokemones(Entrenador entrenador){
-        Pokemon[] pokemones = entrenador.getPokemones();
+    public boolean comprobarPokemonesJugador(Entrenador jugador){
+        Pokemon[] pokemones = jugador.getPokemones();
+        for(int i = 0 ; i < pokemones.length; i++){
+            if(!pokemones[i].isDebilitado()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean comprobarPokemonesNPC(Entrenador npc){
+        Pokemon[] pokemones = npc.getPokemones();
         for(int i = 0 ; i < pokemones.length; i++){
             if(!pokemones[i].isDebilitado()){
                 return false;
@@ -175,10 +186,12 @@ public class Batalla{
             }
         } 
         System.out.println("\n¡Cambiaste a " + pokemonElegido.getNombre() + "!");
+        scan.nextLine();
         return pokemonElegido;
     }
 
     public Pokemon cambiarPokemonNPC(Pokemon Poke2, Entrenador npc){
+        Scanner x = new Scanner(System.in);
         Pokemon[] pokemonesNPC = npc.getPokemones();
         Pokemon pokemonElegido = null;
         for(int i = 0; i < pokemonesNPC.length; i++){
@@ -187,6 +200,7 @@ public class Batalla{
             }
         }
         System.out.println(npc.getNombre() + " escoge a " + pokemonElegido);
+        x.nextLine();
         return pokemonElegido;
     }
 
@@ -203,13 +217,19 @@ public class Batalla{
         Pokemon defensor;
         String tipoAtaque;
 
+        System.out.println("Te enfrentas a " + npc.getNombre());
+        sc.nextLine();
+        System.out.println(npc.getNombre() + " inicia con " + poke2.getNombre() + "!");
+        sc.nextLine();
+
         while(enCombate){
             if(compararVelocidades(poke1, poke2) == poke1){
                 System.out.println("HP de tu " + poke1.getNombre() + ": " + poke1.getStats().getHPActual() +" / "+ poke1.getStats().getHP());
                 System.out.println("HP del " + poke2.getNombre() + " rival: " + poke2.getStats().getHPActual() + " / " + poke2.getStats().getHP());
                 System.out.println("Que quieres hacer?");
                 for (int i = 0; i < poke1.getAtaques().length; i++){
-                    System.out.println((i + 1) + ") " + poke1.getAtaques()[i]);
+                    Ataque ataqueDisponible = poke1.getAtaques()[i];
+                    System.out.println((i + 1) + ") " + poke1.getAtaques()[i] + " | " + ataqueDisponible.getPotencia() + " | " + ataqueDisponible.getPPActual() + "/" + ataqueDisponible.getPPMaximo() + " | " + ataqueDisponible.getElemento() );
                 }
                 System.out.println("5) Cambiar Pokemon");
                 opcion = sc.nextInt();
@@ -227,11 +247,18 @@ public class Batalla{
                         }
                     }
 
-
                     atacar(ataqueUsado, atacante, defensor, tipoAtaque, efectividadTotal);
-                    if(comprobarSalud(poke1, poke2, jugador, npc) == true){
-                        poke2 = cambiarPokemonNPC(poke2, npc);
+                    if(comprobarPokemonesNPC(npc) == true){
+                        System.out.println("Has ganado la batalla contra " + npc.getNombre() + "!");
+                        sc.nextLine();
+                        enCombate = false;
+                        break;
+                    } else{
+                        if(comprobarSalud(poke1, poke2, jugador, npc) == true){
+                            poke2 = cambiarPokemonNPC(poke2, npc);
+                        }
                     }
+
                 } else if(opcion == 4){
                     poke1 = cambiarPokemonJugador(poke1, jugador);
                 } else{
@@ -243,43 +270,70 @@ public class Batalla{
                 atacante = poke2;
                 defensor = poke1;
                 tipoAtaque = ataqueUsado.getElemento().getNombre();
-                double efectividadTotal = 1.0;
 
+                double efectividadTotal = 1.0;
                 for (Elemento elemDef : poke1.getElementos()) {
                         if (elemDef != null) {
                             efectividadTotal *= obtenerEfectividad(tipoAtaque, elemDef.getDebilidades(), elemDef.getFortalezas());
                         }
                 }
                 atacar(ataqueUsado, atacante, defensor, tipoAtaque, efectividadTotal);
-                if(comprobarSalud(poke1, poke2, jugador, npc) == true){
-                    poke1 = cambiarPokemonJugador(poke1, jugador);
+
+                if(comprobarPokemonesJugador(jugador) == true){
+                    System.out.println("Has perdido la batalla contra " + npc.getNombre() + "!");
+                    sc.nextLine();
+                    enCombate = false;
+                    break;
+                } else{
+                    if(comprobarSalud(poke1, poke2, jugador, npc) == true){
+                        poke1 = cambiarPokemonJugador(poke1, jugador);
+                    }
                 }
+
             }else if (compararVelocidades(poke1, poke2) == poke2){
+
                 System.out.println("HP de tu " + poke1.getNombre() + ": " + poke1.getStats().getHPActual() +" / "+ poke1.getStats().getHP());
                 System.out.println("HP del " + poke2.getNombre() + " rival: " + poke2.getStats().getHPActual() + " / " + poke2.getStats().getHP());
+
+                System.out.println("Que quieres hacer?");
+                for (int i = 0; i < poke1.getAtaques().length; i++){
+                    Ataque ataqueDisponible = poke1.getAtaques()[i];
+                    System.out.println((i + 1) + ") " + poke1.getAtaques()[i] + " | " + ataqueDisponible.getPotencia() + " | " + ataqueDisponible.getPPActual() + "/" + ataqueDisponible.getPPMaximo() + " | " + ataqueDisponible.getElemento() );
+                }
+                System.out.println("5) Cambiar Pokemon");
+                opcion = sc.nextInt();
 
                 int ataqueNPC = ataqueIA();
                 ataqueUsado = poke2.getAtaques()[ataqueNPC];
                 atacante = poke2;
                 defensor = poke1;
                 tipoAtaque = ataqueUsado.getElemento().getNombre();
-                double efectividadTotal = 1.0;
 
+                double efectividadTotal = 1.0;
                 for (Elemento elemDef : poke1.getElementos()) {
                         if (elemDef != null) {
                             efectividadTotal *= obtenerEfectividad(tipoAtaque, elemDef.getDebilidades(), elemDef.getFortalezas());
                         }
                 }
                 atacar(ataqueUsado, atacante, defensor, tipoAtaque, efectividadTotal);
-                if(comprobarSalud(poke1, poke2, jugador, npc) == true){
-                    poke1 = cambiarPokemonJugador(poke1, jugador);
+
+                if(comprobarPokemonesJugador(jugador) == true){
+                    System.out.println("Has perdido la batalla contra " + npc.getNombre() + "!");
+                    sc.nextLine();
+                    enCombate = false;
+                    break;
+                } else{
+                    if(comprobarSalud(poke1, poke2, jugador, npc) == true){
+                        poke1 = cambiarPokemonJugador(poke1, jugador);
+                        System.out.println("Que quieres hacer?");
+                        for (int i = 0; i < poke1.getAtaques().length; i++){
+                            Ataque ataqueDisponible = poke1.getAtaques()[i];
+                            System.out.println((i + 1) + ") " + poke1.getAtaques()[i] + " | " + ataqueDisponible.getPotencia() + " | " + ataqueDisponible.getPPActual() + "/" + ataqueDisponible.getPPMaximo() + " | " + ataqueDisponible.getElemento() );
+                        }
+                        System.out.println("5) Cambiar Pokemon");
+                    }
                 }
-                System.out.println("Que quieres hacer?");
-                for (int i = 0; i < poke1.getAtaques().length; i++){
-                    System.out.println((i + 1) + ") " + poke1.getAtaques()[i]);
-                }
-                System.out.println("5) Cambiar Pokemon");
-                opcion = sc.nextInt();
+                
                 opcion -= 1;
                 if (opcion <= 3){
                     ataqueUsado = poke1.getAtaques()[opcion];
@@ -296,8 +350,15 @@ public class Batalla{
 
 
                     atacar(ataqueUsado, atacante, defensor, tipoAtaque, efectividadTotal);
-                    if(comprobarSalud(poke1, poke2, jugador, npc) == true){
-                        poke2 = cambiarPokemonNPC(poke2, npc);
+                    if(comprobarPokemonesNPC(npc) == true){
+                        System.out.println("Has ganado la batalla contra " + npc.getNombre() + "!");
+                        sc.nextLine();
+                        enCombate = false;
+                        break;
+                    } else{
+                        if(comprobarSalud(poke1, poke2, jugador, npc) == true){
+                            poke2 = cambiarPokemonNPC(poke2, npc);
+                        }
                     }
                 } else if(opcion == 4){
                     poke1 = cambiarPokemonJugador(poke1, jugador);
