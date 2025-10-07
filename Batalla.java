@@ -108,6 +108,11 @@ public class Batalla{
                     System.out.println("Un golpe crítico");
                     s.nextLine();
                 }
+                if(defensor.getStats().getHPActual() <= 0){
+                    defensor.setDebilitado(true);
+                    defensor.getStats().setHPActual(0);
+                    System.out.println(defensor.getNombre() + " se ha debilitado");
+                }
 
             }
         } catch (Exception e) {
@@ -115,6 +120,25 @@ public class Batalla{
                 System.out.println("No hay PP!");
             }
         }
+    }
+
+    public boolean comprobarSalud(Pokemon Poke1 , Pokemon Poke2, Entrenador jugador, Entrenador npc){
+        if(Poke1.isDebilitado() == true){
+            return true;
+        } else if (Poke2.isDebilitado() == true){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean comprobarPokemones(Entrenador entrenador){
+        Pokemon[] pokemones = entrenador.getPokemones();
+        for(int i = 0 ; i < pokemones.length; i++){
+            if(!pokemones[i].isDebilitado()){
+                return false;
+            }
+        }
+        return true;
     }
 
     public Pokemon cambiarPokemonJugador(Pokemon poke1, Entrenador jugador){
@@ -154,6 +178,18 @@ public class Batalla{
         return pokemonElegido;
     }
 
+    public Pokemon cambiarPokemonNPC(Pokemon Poke2, Entrenador npc){
+        Pokemon[] pokemonesNPC = npc.getPokemones();
+        Pokemon pokemonElegido = null;
+        for(int i = 0; i < pokemonesNPC.length; i++){
+            if(pokemonesNPC[i].isDebilitado() == false){
+                pokemonElegido = pokemonesNPC[i];
+            }
+        }
+        System.out.println(npc.getNombre() + " escoge a " + pokemonElegido);
+        return pokemonElegido;
+    }
+
     public void cicloBatalla(Entrenador jugador, Entrenador npc){
         Scanner sc = new Scanner(System.in);
         int indiceJugador = 0;
@@ -166,12 +202,6 @@ public class Batalla{
         Pokemon atacante;
         Pokemon defensor;
         String tipoAtaque;
-
-        /* for(int i = 0; i < jugador.getPokemones().length; i++){
-            if(jugador.getPokemones().isDebilitado() == true){
-
-            }
-        } */
 
         while(enCombate){
             if(compararVelocidades(poke1, poke2) == poke1){
@@ -199,6 +229,9 @@ public class Batalla{
 
 
                     atacar(ataqueUsado, atacante, defensor, tipoAtaque, efectividadTotal);
+                    if(comprobarSalud(poke1, poke2, jugador, npc) == true){
+                        poke2 = cambiarPokemonNPC(poke2, npc);
+                    }
                 } else if(opcion == 4){
                     poke1 = cambiarPokemonJugador(poke1, jugador);
                 } else{
@@ -218,9 +251,12 @@ public class Batalla{
                         }
                 }
                 atacar(ataqueUsado, atacante, defensor, tipoAtaque, efectividadTotal);
+                if(comprobarSalud(poke1, poke2, jugador, npc) == true){
+                    poke1 = cambiarPokemonJugador(poke1, jugador);
+                }
             }else if (compararVelocidades(poke1, poke2) == poke2){
-                System.out.println("HP de tu " + poke1.getNombre() + " : " + poke1.getStats().getHP());
-                System.out.println("HP del " + poke2.getNombre() + " rival: " + poke2.getStats().getHP());
+                System.out.println("HP de tu " + poke1.getNombre() + ": " + poke1.getStats().getHPActual() +" / "+ poke1.getStats().getHP());
+                System.out.println("HP del " + poke2.getNombre() + " rival: " + poke2.getStats().getHPActual() + " / " + poke2.getStats().getHP());
 
                 int ataqueNPC = ataqueIA();
                 ataqueUsado = poke2.getAtaques()[ataqueNPC];
@@ -235,13 +271,39 @@ public class Batalla{
                         }
                 }
                 atacar(ataqueUsado, atacante, defensor, tipoAtaque, efectividadTotal);
-
+                if(comprobarSalud(poke1, poke2, jugador, npc) == true){
+                    poke1 = cambiarPokemonJugador(poke1, jugador);
+                }
                 System.out.println("Que quieres hacer?");
                 for (int i = 0; i < poke1.getAtaques().length; i++){
                     System.out.println((i + 1) + ") " + poke1.getAtaques()[i]);
                 }
                 System.out.println("5) Cambiar Pokemon");
-                sc.nextLine();
+                opcion = sc.nextInt();
+                opcion -= 1;
+                if (opcion <= 3){
+                    ataqueUsado = poke1.getAtaques()[opcion];
+                    atacante = poke1;
+                    defensor = poke2;
+                    tipoAtaque = ataqueUsado.getElemento().getNombre();
+                    efectividadTotal = 1.0;
+                    
+                    for (Elemento elemDef : poke2.getElementos()) {
+                        if (elemDef != null) {
+                            efectividadTotal *= obtenerEfectividad(tipoAtaque, elemDef.getDebilidades(), elemDef.getFortalezas());
+                        }
+                    }
+
+
+                    atacar(ataqueUsado, atacante, defensor, tipoAtaque, efectividadTotal);
+                    if(comprobarSalud(poke1, poke2, jugador, npc) == true){
+                        poke2 = cambiarPokemonNPC(poke2, npc);
+                    }
+                } else if(opcion == 4){
+                    poke1 = cambiarPokemonJugador(poke1, jugador);
+                } else{
+                    System.out.println("Opcion no valida");
+                }
             }
         }
     }
