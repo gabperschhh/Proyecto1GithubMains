@@ -4,3 +4,4 @@ Correr el programa con el compilar.bat, esto para que la funcion de limpiar pant
 
 -Gabo
 -Benjamin
+-Julián
