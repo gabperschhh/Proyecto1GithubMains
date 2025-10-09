@@ -1,3 +1,8 @@
+/**
+*Esta clase tiene todos los detalles de un Pokemon y una lista de elementos y otra de ataques tiene relación con la clase Stat, Elemento, Ataque, Inicializar y Main
+*@author Benjamin Hernández, Julian Barrantes y Gabriel perez
+*@Version 1.0
+*/
 public class Pokemon{
     private String nombre;
     private int nivel;

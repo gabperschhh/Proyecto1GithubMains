@@ -1,3 +1,8 @@
+/**
+* Esta clase inicializa al resto de clases, aquí se contienen las listas de pokemones, ataques, stats, gimnasios, entrenadores y elementos
+*@author Benjamín Hernández, Julian Barrantes y Gabriel Pérez
+*@Version 1.0
+*/
 import java.util.Arrays;
 import java.util.Scanner;
 public class Inicializar{
@@ -30,7 +35,11 @@ public class Inicializar{
     static Stat statsLucarioJ = new Stat(130, 130, 108, 67, 90);
     static Stat statsNoivernJ = new Stat(145, 145, 91, 76, 121);
     static Stat statsDecidueyeJ = new Stat(138, 138, 100, 94, 70);
-
+    /**
+ * Inicializa y carga en memoria todos los objetos Elemento (tipos de pokemon)
+ * con sus  ventajas y desventajas.
+ * * @return El arreglo (pool) de Elementos creado y poblado.
+ */
     public static Elemento[] inicializarElementos(){
         poolElementos[0] = new Elemento("Planta", new String[]{"Fuego", "Volador"}, new String[]{"Agua"});
         poolElementos[1] = new Elemento("Fuego", new String[]{"Agua"}, new String[]{"Planta"});
@@ -41,7 +50,11 @@ public class Inicializar{
         poolElementos[6] = new Elemento("Lucha", new String[]{"Volador"}, new String[]{"Normal"});
         return poolElementos;
     }
-
+    /**
+ * Inicializa y carga en memoria todos los objetos Ataques.
+ * con sus estadisticas como daño o elemento.
+ * @return El arreglo (pool) de Ataques.
+ */
     public static Ataque[] inicializarAtaques(){
         poolAtaques[0] = new Ataque("Lanzallamas", poolElementos[1], 90, 15, 15, 100);
         poolAtaques[1] = new Ataque("Nitrocarga", poolElementos[1], 50, 20, 20, 100);
@@ -59,7 +72,11 @@ public class Inicializar{
         poolAtaques[13] = new Ataque("Esfera Aural", poolElementos[6], 80, 20, 20, 100);
         return poolAtaques;
     }
-
+    /**
+ * Inicializa y carga en memoria todos los pokemones de los NPC/entrenadores.
+ * con sus  estadisticas completas
+ * * @return El arreglo (pool) de pokemonesNPC.
+ */
     public static Pokemon[] inicializarPokemonesNPC(){
         poolPokemonesNPC[0] = new Pokemon("Charizard", 50, statsCharizardNPC, new Elemento[]{poolElementos[1], poolElementos[5]}, new Ataque[]{poolAtaques[0], poolAtaques[1], poolAtaques[2], poolAtaques[4]}, false );
         poolPokemonesNPC[1] = new Pokemon("Infernape", 50, statsInfernapeNPC, new Elemento[]{poolElementos[1], poolElementos[6]}, new Ataque[]{poolAtaques[0], poolAtaques[1], poolAtaques[12], poolAtaques[11]}, false );
@@ -73,7 +90,11 @@ public class Inicializar{
         poolPokemonesNPC[9] = new Pokemon("Decidueye", 50, statsDecidueyeNPC, new Elemento[]{poolElementos[0], poolElementos[5]}, new Ataque[]{poolAtaques[6], poolAtaques[7], poolAtaques[4], poolAtaques[2]}, false );
         return poolPokemonesNPC;
     }
-
+ /**
+ * Inicializa y carga en memoria todos los pokemones del jugador.
+ * con sus  estadisticas completas
+ * * @return El arreglo (pool) de pokemones.
+ */
     public static Pokemon[] inicializarPokemonesJugador(){
         poolPokemonesJugador[0] = new Pokemon("Charizard", 50, statsCharizardJ, new Elemento[]{poolElementos[1], poolElementos[5]}, new Ataque[]{poolAtaques[0], poolAtaques[1], poolAtaques[2], poolAtaques[4]}, false );
         poolPokemonesJugador[1] = new Pokemon("Infernape", 50, statsInfernapeJ, new Elemento[]{poolElementos[1], poolElementos[6]}, new Ataque[]{poolAtaques[0], poolAtaques[1], poolAtaques[12], poolAtaques[11]}, false );
@@ -87,7 +108,11 @@ public class Inicializar{
         poolPokemonesJugador[9] = new Pokemon("Decidueye", 50, statsDecidueyeJ, new Elemento[]{poolElementos[0], poolElementos[5]}, new Ataque[]{poolAtaques[6], poolAtaques[7], poolAtaques[4], poolAtaques[2]}, false );
         return poolPokemonesJugador;
     }
-
+      /**
+ * Inicializa y carga en la memoria todos los entrenadores
+ * con sus  estadisticas completas
+ * * @return El arreglo poolEntrenadores.
+ */
     public static Entrenador[] inicializarEntrenadores(){
         poolEntrenadores[0] = new Entrenador("Guarda ECCI", false, new Pokemon[]{poolPokemonesNPC[2], poolPokemonesNPC[8], poolPokemonesNPC[5]});
         poolEntrenadores[1] = new Entrenador("Conserje ECCI", false, new Pokemon[]{poolPokemonesNPC[1], poolPokemonesNPC[6], poolPokemonesNPC[7]});
@@ -95,7 +120,11 @@ public class Inicializar{
         poolEntrenadores[3] = new Entrenador("Lider Prof. Rodrigo Li", false, new Pokemon[]{poolPokemonesNPC[6], poolPokemonesNPC[7], poolPokemonesNPC[0]});
         return poolEntrenadores;
     }
-
+    /**
+ * Guía al usuario a través de la consola para ingresar su nombre
+ * y seleccionar un equipo de tres Pokémon del pool de jugadores.
+ * * @return El objeto Entrenador, completamente inicializado con el nombre ingresado y el equipo de pokemons escogido.
+ */
     public static Entrenador inicializarJugador(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Bienvenido!");
@@ -122,7 +151,11 @@ public class Inicializar{
         Entrenador jugador = new Entrenador(nombre, true , new Pokemon[]{poolPokemonesJugador[pk1], poolPokemonesJugador[pk2], poolPokemonesJugador[pk3]});
         return jugador;
     }
-
+    /**
+ * Inicializa y carga en la memoria todos los gimnasios disponibles
+ * con las estadísticas/datos completos
+ * * @return El arreglo poolGimnasios
+ */
     public static Gimnasio[] inicializarGimnasios() {
         poolGimnasios[0] = new Gimnasio("Edificio Embrujado ECCI", new Entrenador [] {poolEntrenadores[0], poolEntrenadores[1], poolEntrenadores[2], poolEntrenadores[3]}); 
         poolGimnasios[1] = new Gimnasio ("Asocia abandonada", new Entrenador[]{poolEntrenadores[0], poolEntrenadores[1], poolEntrenadores[2], poolEntrenadores[3]});

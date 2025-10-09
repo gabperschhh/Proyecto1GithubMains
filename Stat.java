@@ -1,3 +1,8 @@
+/**
+*Esta clase establece las stats de los Pokemon, la clase tiene relación con las clases Pokemon, Inicializar y Main
+*@author Benjamin Hernández, Julian Barrantes y Gabriel perez
+*@Version 1.0
+*/
 public class Stat{
     private int HP;
     private int HPActual;

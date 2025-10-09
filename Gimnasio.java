@@ -1,3 +1,8 @@
+/**
+* Esta clase Crea los gimnasios y utiliza listas de entrenadores, tiene relación con  Entrenador, con inicializar y Main
+*@author Benjamín Hernández, Julian Barrantes y Gabriel Pérez
+*@Version 1.0
+*/
 public class Gimnasio{
     String nombre;
     Entrenador[] entrenadores = new Entrenador[6];

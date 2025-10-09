@@ -1,3 +1,8 @@
+/**
+*Esta clase tiene los detalles de un entrenador y una lista de Pokemon, tiene relación con Pokemon, Inicializar y Main
+*@author Benjamin Hernández, Julian Barrantes y Gabriel perez
+*@Version 1.0
+*/
 public class Entrenador{
     String nombre;
     boolean esJugador;

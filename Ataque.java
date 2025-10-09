@@ -1,3 +1,8 @@
+/**
+* Esta clase contiene todos los detalles de los ataques, se relaciona con elemento y pokemon 
+*@author Benjamín Hernández, Julian Barrantes y Gabriel Pérez
+*@Version 1.0
+*/
 public class Ataque{
     private String nombre;
     private Elemento elemento;

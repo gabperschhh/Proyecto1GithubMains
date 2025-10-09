@@ -1,3 +1,8 @@
+/**
+*Esta clase establece los posibles elementos de los pokemones, esta clase tiene relación con entrenador y ataque, además de inicializar y main
+*@author Benjamín Hernández, Julian Barrantes y Gabriel Pérez
+*@Version 1.0
+*/
 public class Elemento{
     private String nombre;
     private String[] debilidades;

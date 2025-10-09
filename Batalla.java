@@ -1,3 +1,8 @@
+/**
+*Genera cuatro combates Pokemon entre un jugador y la IA
+*@author Benjamin Hernández, Julian Barrantes y Gabriel perez
+*@Version 1.0
+*/
 import java.util.Random;
 import java.util.Scanner;
 public class Batalla{
@@ -18,7 +23,12 @@ public class Batalla{
             for (int i = 0; i < 50; i++) System.out.println();
         }
     }
-
+    /**
+*Define si el pokemon es débil contra el elemento 
+*@param tipoAtaque
+*@param debilidades
+*@return true si es debil contra el elemento; false en caso contrario
+*/
     private static boolean esDebilidad(String tipoAtaque, String[] debilidades){
         for (String d : debilidades){   
             if (d.equalsIgnoreCase(tipoAtaque)) { 
@@ -27,7 +37,12 @@ public class Batalla{
         } 
         return false;
     }
-
+    /**
+*Define si el pokemon es fuerte contra el elemento 
+*@param tipoAtaque
+*@param fortalezas
+*@return true si es fuerte contra el elemento; false en caso contrario
+*/
     private static boolean esFortaleza(String tipoAtaque, String[] fortalezas){
         for (String f : fortalezas){   
             if (f.equalsIgnoreCase(tipoAtaque)) {
@@ -36,7 +51,13 @@ public class Batalla{
         }
         return false;
     }
-
+    /**
+*Muestra la efectividad de un ataque de un Pokemon a otro dependiendo del elemento 
+*@param tipoAtaque
+*@param fortalezas
+*@param debilidades
+*@return 2.0 si es débil contra el elemento; 0.5 si es fuerte; 1.0 si no es ninguna
+*/
     public static double obtenerEfectividad(String tipoAtaque, String[] debilidades, String[] fortalezas){
         double efectividad = 1.0;
         if (esDebilidad(tipoAtaque, debilidades) == true){
@@ -47,7 +68,12 @@ public class Batalla{
         return 1.0;
         //no hay manera que se de un x4, casualidad o causalidad? shhhhh
     }
-
+/**
+*Define si un ataque es critico o no mediante probabilidad 
+*@param random
+*@param prob
+*@return true si es critico; false en caso contrario
+*/
     public boolean esCritico(){
         Random random = new Random();
         int prob = random.nextInt(100) + 1; //como genera de 0 a 99 le sumamos uno para que sea entre 1 a 100, es como lo mismo pero queda mejor xd
@@ -56,7 +82,15 @@ public class Batalla{
         }
         return false;
     }
-
+    /**
+*Calcula el daño que se hace mediante la efectividad del ataque
+*@param nivelAtacante 
+*@param potenciaAtaque
+*@param ataque 
+*@param defensa
+*@param daño
+*@return (int) daño
+*/
     public int calcularDaño(Pokemon atacante, Pokemon defensor, Ataque ataqueUsado, boolean esCritico, double efectividadTotal){
         int nivelAtacante = atacante.getNivel();
         int potenciaAtaque = ataqueUsado.getPotencia();
@@ -76,7 +110,12 @@ public class Batalla{
 
         return (int) daño; //reconvierte a int
     }
-
+    /**
+*Se comparan las velocidades para saber quién empieza
+*@param poke1
+*@param poke2
+*@return poke1 si la velocidad del pokemon del jugador es mayor; poke2 en caso contrario
+*/
     public Pokemon compararVelocidades(Pokemon poke1, Pokemon poke2){
         if(poke1.getStats().getSPD() > poke2.getStats().getSPD()){
             return poke1;
@@ -85,13 +124,32 @@ public class Batalla{
         }
         return poke1;
     }
-
+    /**
+*Define como ataca la IA
+*@param rand
+*@param ataque
+*@return ataque
+*/
     public int ataqueIA(){
         Random rand = new Random();
         int ataque = rand.nextInt(4);
         return ataque;
     }
-
+    /**
+*Define como ataca el jugador 
+*@param ataqueUsado
+*@param atacante 
+*@param defensor
+*@param tipoAtaque
+*@param efectividadTotal
+*@param poke1
+*@param poke2
+*@param ppActual
+*@param nuevoPP
+*@param nuevoHP
+*@param esCritico
+*@throws <Error> si ya no quedan más pp para usar
+*/
     public void atacar(Ataque ataqueUsado, Pokemon atacante, Pokemon defensor, String tipoAtaque, double efectividadTotal, Pokemon poke1, Pokemon poke2){
         Scanner s = new Scanner(System.in);
         try {
@@ -151,7 +209,14 @@ public class Batalla{
             }
         }
     }
-
+    /**
+ * Comprueba si alguno de los Pokémon activos en el campo está debilitado (HP <= 0).
+ * @param Poke1 Pokémon activo jugador.
+ * @param Poke2 Pokémon activo NPC.
+ * @param jugador El objeto Entrenador del jugador. (no se usa internamente)
+ * @param npc El objeto Entrenador del NPC. (tampoco se usa pero igual)
+ * @return true si Poke1 o Poke2 están debilitados y necesitan ser cambiados; false en caso contrario.
+ */
     public boolean comprobarSalud(Pokemon Poke1 , Pokemon Poke2, Entrenador jugador, Entrenador npc){
         if(Poke1.isDebilitado() == true){
             return true;
@@ -160,7 +225,11 @@ public class Batalla{
         }
         return false;
     }
-
+    /**
+ * Recorre el equipo del jugador para verificar si todos sus Pokémon están debilitados.
+ * @param jugador El Entrenador con su equipo.
+ * @return true si TODOS los Pokémon del jugador están debilitados (el jugador pierde la batalla); false si aún le queda alguno.
+ */
     public boolean comprobarPokemonesJugador(Entrenador jugador){
         Pokemon[] pokemones = jugador.getPokemones();
         for(int i = 0 ; i < pokemones.length; i++){
@@ -170,7 +239,11 @@ public class Batalla{
         }
         return true;
     }
-
+    /**
+ * Recorre el equipo del NPC para verificar si todos sus Pokémon están debilitados.
+ * @param npc El Entrenador del NPC con su equipo de Pokémon.
+ * @return true si TODOS los Pokémon del NPC están debilitados (pierde); false si aún le queda alguno.
+ */
     public boolean comprobarPokemonesNPC(Entrenador npc){
         Pokemon[] pokemones = npc.getPokemones();
         for(int i = 0 ; i < pokemones.length; i++){
@@ -180,7 +253,12 @@ public class Batalla{
         }
         return true;
     }
-
+    /**
+ * Muestra la lista de Pokémon del jugador y manipula la interacción para seleccionar y validar un cambio de Pokémon activo.
+ * @param poke1 El Pokémon que está actualmente en batalla (para validación de no repetición).
+ * @param jugador El Entrenador del jugador.
+ * @return El Pokémon recién elegido y válido para ingresar al campo de batalla.
+ */
     public Pokemon cambiarPokemonJugador(Pokemon poke1, Entrenador jugador){
         Scanner scan = new Scanner(System.in);
         Pokemon pokemonElegido = null;
@@ -219,7 +297,13 @@ public class Batalla{
         limpiarPantalla();
         return pokemonElegido;
     }
-
+    /**
+ * Implementa lógica para que el NPC cambie de Pokémon.
+ * Elige el primer Pokémon de su lista que NO esté debilitado.
+ * @param Poke2 Pokémon activo del NPC (el debilitado).
+ * @param npc Entrenador NPC.
+ * @return El primer Pokémon disponible del equipo del NPC.
+ */
     public Pokemon cambiarPokemonNPC(Pokemon Poke2, Entrenador npc){
         Scanner x = new Scanner(System.in);
         Pokemon[] pokemonesNPC = npc.getPokemones();
@@ -233,7 +317,14 @@ public class Batalla{
         x.nextLine();
         return pokemonElegido;
     }
-
+    /**
+ * Método que ejecuta el ciclo de combate.
+ * Controla la prioridad de ataque por velocidad.
+ * y la lógica de finalización de batalla.
+ * @param jugador El Entrenador controlado por el usuario.
+ * @param npc El Entrenador rival (NPC).
+ * @return true si el jugador gana la batalla; false si el jugador pierde la batalla.
+ */
     public boolean cicloBatalla(Entrenador jugador, Entrenador npc){
         Scanner sc = new Scanner(System.in);
         int indiceJugador = 0;
